@@ -1,0 +1,92 @@
+<mat-card class="card-wrapper">
+  <mat-card-header
+    style="margin-bottom: 20px; font-size: 20px; text-align: center"
+  >
+    <mat-card-title>Register Form</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form action="" [formGroup]="productForm" (ngSubmit)="onSubmit()">
+      <div>
+        <mat-form-field class="example-full-width">
+          <input
+            matInput
+            placeholder="Email"
+            value=""
+            formControlName="email"
+            maxlength="50"
+          />
+        </mat-form-field>
+        <div
+          *ngIf="submitted && f['email'].errors"
+          style="color: red; margin-top: -20px; line-height: 20px"
+        >
+          <div *ngIf="f['email'].errors['required']">Email is required</div>
+          <div *ngIf="f['email'].errors['email']">Email is invalid</div>
+        </div>
+      </div>
+
+      <div>
+        <mat-form-field class="example-full-width">
+          <input
+            matInput
+            placeholder="Password"
+            value=""
+            formControlName="password"
+            minlength="6"
+            maxlength="20"
+          />
+        </mat-form-field>
+        <div
+          *ngIf="submitted && f['password'].errors"
+          style="color: red; margin-top: -20px; line-height: 20px"
+        >
+          <div *ngIf="f['password'].errors['required']">
+            Password is required
+          </div>
+          <div *ngIf="f['password'].errors['minlength']">
+            Password must be at least 6 characters
+          </div>
+          <div *ngIf="f['password'].errors['maxlength']">
+            Username must not exceed 20 characters
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <mat-form-field class="example-full-width">
+          <input
+            matInput
+            placeholder="Confirm Password"
+            value=""
+            formControlName="confirmPassword"
+            minlength="6"
+            maxlength="20"
+          />
+        </mat-form-field>
+        <div
+          *ngIf="submitted && f['confirmPassword'].errors"
+          style="color: red; margin-top: -20px; line-height: 20px"
+        >
+          <div *ngIf="f['confirmPassword'].errors['required']">
+            Confirm Password is required
+          </div>
+          <div *ngIf="f['confirmPassword'].errors['matching']">
+            Confirm Password does not match
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <mat-form-field class="example-full-width">
+          <input
+            matInput
+            placeholder="Promo Code"
+            value=""
+            formControlName="promoCode"
+          />
+        </mat-form-field>
+      </div>
+      <button mat-raised-button color="primary">Register</button>
+    </form>
+  </mat-card-content>
+</mat-card>
