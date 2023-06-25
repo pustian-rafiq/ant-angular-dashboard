@@ -4,13 +4,31 @@ import { LoginComponent } from './login/login.component';
 
 import { CommonModule } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { NgOtpInputModule } from 'ng-otp-input';
+import { AntDesignModule } from 'src/app/ant-design/ant.module';
 import { AuthRoutingModule } from './auth-routing.module';
+import { DataTableComponent } from './data-table/data-table.component';
+import { OtpComponent } from './otp/otp.component';
 import { RegisterComponent } from './register/register.component';
 import { SetNewPasswordComponent } from './set-new-password/set-new-password.component';
-import { DataTableComponent } from './data-table/data-table.component';
+import { TreeViewComponent } from './tree-view/tree-view.component';
 @NgModule({
-  imports: [CommonModule, AuthRoutingModule, MaterialModule, NgSelectModule],
-  declarations: [LoginComponent, RegisterComponent, SetNewPasswordComponent, DataTableComponent],
+  imports: [
+    CommonModule,
+    AuthRoutingModule,
+    MaterialModule,
+    AntDesignModule,
+    NgOtpInputModule,
+    NgSelectModule,
+  ],
+  declarations: [
+    LoginComponent,
+    RegisterComponent,
+    SetNewPasswordComponent,
+    DataTableComponent,
+    OtpComponent,
+    TreeViewComponent,
+  ],
   exports: [LoginComponent],
 })
 export class AuthModule {}

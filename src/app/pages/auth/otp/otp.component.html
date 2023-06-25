@@ -1,0 +1,35 @@
+<button nz-button (click)="showModal()">
+  <span>Show Modal</span>
+</button>
+<nz-modal
+  [(nzVisible)]="isVisible"
+  nzTitle="The first Modal"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+>
+  <ng-container *nzModalContent>
+    <p class="a-o-i">Enter verification code</p>
+    <ng-otp-input
+      class="otpclass"
+      #valInput
+      (onInputChange)="onOtpChange($event)"
+      *ngIf="showOtpComponent"
+      [config]="config"
+    ></ng-otp-input>
+  </ng-container>
+</nz-modal>
+
+<div class="content">
+  <div class="o-c">
+    <div>
+      <div class="card">
+        <p class="a-o-i">Enter verification code</p>
+        <ng-otp-input
+          (onInputChange)="onOtpChange($event)"
+          *ngIf="showOtpComponent"
+          [config]="config"
+        ></ng-otp-input>
+      </div>
+    </div>
+  </div>
+</div>

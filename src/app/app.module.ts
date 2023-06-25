@@ -9,12 +9,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
-import { AntDesignModule } from './ant-design/material.module';
+import { AntDesignModule } from './ant-design/ant.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { IconsProviderModule } from './icons-provider.module';
 import { MaterialModule } from './material/material.module';
-
 registerLocaleData(en);
 
 @NgModule({
@@ -29,6 +28,7 @@ registerLocaleData(en);
     NzLayoutModule,
     NzMenuModule,
     AntDesignModule,
+    // NgOtpInputModule,
     MaterialModule,
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],

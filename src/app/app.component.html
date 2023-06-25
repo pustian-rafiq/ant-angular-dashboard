@@ -3,7 +3,8 @@
     class="menu-sidebar"
     nzCollapsible
     nzWidth="256px"
-    nzBreakpoint="md"
+    nzBreakpoint="lg"
+    [nzCollapsedWidth]="0"
     [(nzCollapsed)]="isCollapsed"
     [nzTrigger]="null"
   >
@@ -14,6 +15,38 @@
       </a>
     </div>
     <ul
+      nz-menu
+      nzMode="inline"
+      nzTheme="dark"
+      [nzInlineCollapsed]="isCollapsed"
+    >
+      <li nz-submenu nzTitle="Navigation Two" nzIcon="appstore">
+        <ul>
+          <li nz-menu-item>
+            <span nz-icon nzType="ordered-list" nzTheme="outline"></span>
+            <span> Option 5</span>
+          </li>
+          <li nz-menu-item>
+            <span nz-icon nzType="ordered-list" nzTheme="outline"></span>
+            <span> Option 6</span>
+          </li>
+
+          <li nz-submenu nzIcon="appstore" nzTitle="Submenu">
+            <ul>
+              <li nz-menu-item>
+                <span nz-icon nzType="ordered-list" nzTheme="outline"></span>
+                <span> Option 7</span>
+              </li>
+              <li nz-menu-item>
+                <span nz-icon nzType="ordered-list" nzTheme="outline"></span>
+                <span> Option 8</span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <!-- <ul
       nz-menu
       nzTheme="dark"
       nzMode="inline"
@@ -26,6 +59,12 @@
           </li>
           <li nz-menu-item nzMatchRouter routerLink="/auth/login">
             <a>Login</a>
+          </li>
+          <li nz-menu-item nzMatchRouter routerLink="/auth/otp">
+            <a>OTP</a>
+          </li>
+          <li nz-menu-item nzMatchRouter routerLink="/auth/d3-tree-view">
+            <a>Tree View</a>
           </li>
           <li nz-menu-item nzMatchRouter routerLink="/auth/set-new-password">
             <a>Set Password</a>
@@ -42,7 +81,7 @@
           </li>
         </ul>
       </li>
-    </ul>
+    </ul> -->
   </nz-sider>
   <nz-layout>
     <nz-header>
