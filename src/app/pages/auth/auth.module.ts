@@ -12,6 +12,7 @@ import { OtpComponent } from './otp/otp.component';
 import { RegisterComponent } from './register/register.component';
 import { SetNewPasswordComponent } from './set-new-password/set-new-password.component';
 import { TreeViewComponent } from './tree-view/tree-view.component';
+import { DownloadPdfComponent } from './download-pdf/download-pdf.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -28,6 +29,7 @@ import { TreeViewComponent } from './tree-view/tree-view.component';
     DataTableComponent,
     OtpComponent,
     TreeViewComponent,
+    DownloadPdfComponent,
   ],
   exports: [LoginComponent],
 })
