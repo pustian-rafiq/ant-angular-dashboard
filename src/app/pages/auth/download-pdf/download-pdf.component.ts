@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 // import jsPDF from 'jspdf';
 // import * as jsPDF from 'jspdf';
@@ -14,6 +15,7 @@ require('jspdf-autotable');
   styleUrls: ['./download-pdf.component.scss'],
 })
 export class DownloadPdfComponent implements OnInit {
+  constructor(private datePipe: DatePipe) {}
   ngOnInit() {}
 
   getData(
@@ -27,7 +29,7 @@ export class DownloadPdfComponent implements OnInit {
     return [sl, fname, lname, age, gender, mobile];
   }
   public print() {
-    const doc = new jsPDF();
+    const doc = new jsPDF.jsPDF();
     const columns = [
       ['SL No', 'First Name', 'Last name', 'Age', 'Gender', 'Mobile Number'],
     ];
@@ -64,17 +66,96 @@ export class DownloadPdfComponent implements OnInit {
 
   // Another Example
   generateTable() {
-    const div = document.getElementById('product-table-header');
-    var doc = new jsPDF.jsPDF('p', 'pt', 'letter');
+    var dateTime = this.datePipe.transform(new Date(), 'd MMM, y HH:mm:ss');
+    dateTime = `Printing Date: ${dateTime}`;
+
+    var doc = new jsPDF.jsPDF('p', 'pt', 'a4');
     var y = 20;
     doc.setLineWidth(2);
     doc.text(200, (y = y + 30), 'Product detailed report');
+    var columns = ['ID', 'Name', 'Address', 'Age'];
+    var rows = [
+      [1, 'John', 'Vilnius', 22],
+      [2, 'Jack', 'Riga', 25],
+    ];
 
-    doc.autoTable({
+    // this.addWaterMark(doc, 2);
+    // doc.autoTable({
+    //   html: '#product-table',
+    //   startY: 70,
+    //   theme: 'striped',
+    //   showHead: 'everyPage',
+    //   columnStyles: {
+    //     0: {
+    //       halign: 'left',
+    //       tableWidth: 100,
+    //     },
+    //     1: {
+    //       tableWidth: 100,
+    //     },
+    //     2: {
+    //       halign: 'left',
+    //       tableWidth: 100,
+    //     },
+    //     3: {
+    //       halign: 'left',
+    //       tableWidth: 100,
+    //     },
+    //   },
+
+    //   didDrawPage: function (data: any) {
+    //     // Header
+    //     doc.setFontSize(20);
+    //     doc.setTextColor(40);
+    //     doc.text('Report', data.settings.margin.left, 22);
+
+    //     // Footer
+    //     var str = 'Page ' + doc.internal.getNumberOfPages();
+
+    //     doc.setFontSize(10);
+
+    //     // jsPDF 1.4+ uses getWidth, <1.4 uses .width
+    //     var pageSize = doc.internal.pageSize;
+    //     var pageHeight = pageSize.height
+    //       ? pageSize.height
+    //       : pageSize.getHeight();
+    //     doc.text(str, data.settings.margin.left, pageHeight - 10);
+    //   },
+    // });
+    doc.autoTable(columns, rows, {
       html: '#product-table',
-      startY: 70,
-      theme: 'striped',
-      showHead: 'everyPage',
+
+      startY: doc.pageCount > 1 ? doc.autoTableEndPosY() + 50 : 120,
+      styles: {
+        fontSize: 7,
+        // lineWidth: 1,
+        // lineColor: [0, 0, 0],
+      },
+      tableLineColor: [189, 195, 199],
+      tableLineWidth: 0.75,
+      theme: 'grid',
+      headStyles: {
+        fillColor: [153, 204, 255],
+        fontSize: 10,
+        textColor: [0, 0, 0],
+      },
+      createdCell: function (cell: any, data: any) {
+        console.log(cell);
+        if (cell.row.cells[3].raw === 'Age') {
+          // cell.row.cells[3].styles.fontSize = 15;
+          // cell.row.cells[3].styles.textColor = 111;
+          cell.row.cells[3].styles.halign = 'right';
+        } else {
+          //else rule for drawHeaderCell hook
+          // cell.styles.textColor = 255;
+          // cell.styles.fontSize = 10;
+        }
+      },
+
+      // showHead: 'everyPage',
+      showFoot: 'everyPage',
+      rowPageBreak: 'auto',
+      margin: { top: 10, right: 20, bottom: 100, left: 20 },
       columnStyles: {
         0: {
           halign: 'left',
@@ -88,34 +169,106 @@ export class DownloadPdfComponent implements OnInit {
           tableWidth: 100,
         },
         3: {
-          halign: 'left',
+          halign: 'right',
           tableWidth: 100,
         },
       },
 
       didDrawPage: function (data: any) {
-        // Header
+        //Setting margin top and bottom
+        data.settings.margin.top = 90;
+        data.settings.margin.bottom = 90;
         doc.setFontSize(20);
-        doc.setTextColor(40);
-        doc.text('Report', data.settings.margin.left, 22);
+        doc.setTextColor(0, 0, 0);
+
+        // Set header
+        var img = new Image();
+        img.src = '../../../../assets/Header.jpg';
+        doc.addImage(img, 'JPG', 0, 0, 612, 82, '', 'FAST');
 
         // Footer
-        var str = 'Page ' + doc.internal.getNumberOfPages();
+        doc.setFontSize(5);
 
-        doc.setFontSize(10);
-
-        // jsPDF 1.4+ uses getWidth, <1.4 uses .width
+        // Set footer image
         var pageSize = doc.internal.pageSize;
         var pageHeight = pageSize.height
           ? pageSize.height
           : pageSize.getHeight();
-        doc.text(str, data.settings.margin.left, pageHeight - 10);
+
+        var img = new Image();
+        img.src = '../../../../assets/Footer.jpg';
+        doc.addImage(img, 'JPG', 0, pageHeight - 95, 612, 82, '', 'FAST');
+
+        // Set Printing date and time
+        doc.setTextColor(0, 0, 0);
+        doc.setFontSize(6);
+        doc.text(dateTime, 30, pageHeight - 2, {
+          baseline: 'bottom',
+        });
+
+        // Set user information
+        doc.setFontSize(6);
+        doc.setTextColor(0, 0, 0);
+        var userData = `Printed by Rafiqul Islam`;
+        doc.text(userData, 260, pageHeight - 2, {
+          baseline: 'bottom',
+        });
       },
     });
 
-    doc.save('auto_table_pdf');
+    // Set page number
+    var pageNumber = doc.internal.getNumberOfPages();
+    for (let j = 1; j < pageNumber + 1; j++) {
+      doc.setPage(j);
+      var pageSize = doc.internal.pageSize;
+      var pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
+
+      const pageWidth = pageSize.width ? pageSize.width : pageSize.getWidth();
+
+      doc.setFontSize(6);
+      doc.setTextColor(0, 0, 0);
+      var str = `Page ${j} of ${pageNumber}`;
+      const textWidth = doc.getTextWidth(str);
+      doc.text(str, pageWidth - textWidth - 20, pageHeight - 2, {
+        baseline: 'bottom',
+      });
+    }
+
+    this.addWaterMark(doc, pageNumber);
+
+    doc.output('dataurlnewwindow', { filename: 'product' });
+    return doc;
+    // doc.save('auto_table_pdf');
   }
 
+  addWaterMark(doc: any, pageNumber: any) {
+    for (let i = 0; i < pageNumber; i++) {
+      doc.setPage(i);
+      // doc.saveGraphicsState();
+      // doc.setFontSize(100);
+      // doc.setTextColor(150);
+      // doc.setGState(new doc.GState({ opacity: 0.2 }));
+      // doc.text('BD', 300, doc.internal.pageSize.height - 400, {
+      //   align: 'center',
+      //   baseline: 'middle',
+      // });
+      var img = new Image();
+      img.src = '../../../../assets/Background Watermark.jpg';
+      doc.addImage(
+        img,
+        'JPG',
+        20,
+        doc.internal.pageSize.height - 420,
+        612,
+        82,
+        '',
+        'FAST'
+      );
+      // doc.restoreGraphicsState();
+    }
+
+    return doc;
+  }
   addFooters(doc: any) {
     const pageCount = doc.internal.getNumberOfPages();
 
