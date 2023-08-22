@@ -6,6 +6,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgOtpInputModule } from 'ng-otp-input';
 import { AntDesignModule } from 'src/app/ant-design/ant.module';
+import { ExportService } from 'src/app/services/excel-service.service';
 import { AuthRoutingModule } from './auth-routing.module';
 import { DataTableComponent } from './data-table/data-table.component';
 import { DownloadPdfComponent } from './download-pdf/download-pdf.component';
@@ -31,7 +32,7 @@ import { TreeViewComponent } from './tree-view/tree-view.component';
     TreeViewComponent,
     DownloadPdfComponent,
   ],
-  providers: [DatePipe],
+  providers: [DatePipe, ExportService],
   exports: [LoginComponent],
 })
 export class AuthModule {}

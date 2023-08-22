@@ -1,5 +1,7 @@
 <div>
   <!-- <input type="button" (click)="print()" value="Print Report" /> -->
+  <button (click)="generateExcel()">Export to Excel</button>
+  <button (click)="exportTableToexcel()">Export Table to Excel</button>
   <input type="button" (click)="generateTable()" value="PDF Report" />
   <!-- <input type="button" (click)="print()" value="Print Report" /> -->
 </div>
@@ -13,7 +15,7 @@
     />
   </div> -->
   <nz-divider></nz-divider>
-  <table>
+  <table id="product-table">
     <tr>
       <th>Company</th>
       <th>Contact</th>
@@ -244,6 +246,7 @@
       <td>Centro comercial Moctezuma</td>
       <td>Francisco Chang</td>
       <td>Mexico</td>
+      <td>20</td>
     </tr>
     <tr>
       <td>Ernst Handel</td>
@@ -340,7 +343,7 @@
       <td>20</td>
     </tr>
   </table>
-  <table id="product-table" style="display: none">
+  <table style="display: none">
     <!-- <tr>
       <th>Company</th>
       <th>Contact</th>

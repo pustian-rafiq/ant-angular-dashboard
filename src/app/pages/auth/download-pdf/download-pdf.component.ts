@@ -1,5 +1,9 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
+import { ExportService } from 'src/app/services/excel-service.service';
+import * as XLSX from 'xlsx';
+
 // import jsPDF from 'jspdf';
 // import * as jsPDF from 'jspdf';
 // import autoTable from 'jspdf-autotable';
@@ -15,8 +19,129 @@ require('jspdf-autotable');
   styleUrls: ['./download-pdf.component.scss'],
 })
 export class DownloadPdfComponent implements OnInit {
-  constructor(private datePipe: DatePipe) {}
-  ngOnInit() {}
+  constructor(
+    private datePipe: DatePipe,
+    private exportService: ExportService,
+    private authService: AuthService
+  ) {}
+  ngOnInit() {
+    this.getUsers();
+  }
+
+  getUsers() {
+    this.authService.getUser().subscribe({
+      next: (response: any) => {
+        console.log(response);
+        if (response?.access_token) {
+          console.log('response', response);
+        }
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
+  exportTableToexcel(): void {
+    /* pass here the table id */
+    let element = document.getElementById('product-table');
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+    /* generate workbook and add the worksheet */
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+
+    const wb21 = XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    console.log(ws);
+    return;
+    /* save to file */
+    XLSX.writeFile(wb, 'report.xlsx');
+  }
+
+  generateExcel() {
+    const title = 'Demo Report';
+    const header = ['Year', 'Month', 'Make', 'Model', 'Quantity', 'Pct'];
+    const header2 = ['Year', 'Month', 'Make', 'Model', 'Quantity', 'Pct'];
+    const data = [
+      [2007, 1, 'Volkswagen ', 'Volkswagen Passat', 1267, 10],
+      [2004, 1, 'Toyota ', 'Toyota Rav4', 819, 6.5],
+      [2005, 1, 'Toyota ', 'Toyota Avensis', 787, 6.2],
+      [2009, 1, 'Volkswagen ', 'Volkswagen Golf', 720, 5.7],
+      [2003, 1, 'Toyota ', 'Toyota Corolla', 691, 5.4],
+      [204, 1, 'Volkswagen ', 'Volkswagen Passat', 1267, 10],
+      [2004, 1, 'Toyota ', 'Toyota Rav4', 819, 6.5],
+      [2007, 1, 'Toyota ', 'Toyota Avensis', 787, 6.2],
+      [2007, 1, 'Volkswagen ', 'Volkswagen Golf', 720, 5.7],
+      [2007, 1, 'Toyota ', 'Toyota Corolla', 691, 5.4],
+      [2007, 1, 'Volkswagen ', 'Volkswagen Passat', 1267, 10],
+      [2007, 1, 'Toyota ', 'Toyota Rav4', 819, 6.5],
+      [2007, 1, 'Toyota ', 'Toyota Avensis', 787, 6.2],
+      [2007, 1, 'Volkswagen ', 'Volkswagen Golf', 720, 5.7],
+      [2007, 1, 'Toyota ', 'Toyota Corolla', 691, 5.4],
+      [2007, 1, 'Volkswagen ', 'Volkswagen Passat', 1267, 10],
+      [2007, 1, 'Toyota ', 'Toyota Rav4', 819, 6.5],
+      [2007, 1, 'Toyota ', 'Toyota Avensis', 787, 6.2],
+      [2007, 1, 'Volkswagen ', 'Volkswagen Golf', 720, 5.7],
+      [2007, 1, 'Toyota ', 'Toyota Corolla', 691, 5.4],
+      [2007, 1, 'Volkswagen ', 'Volkswagen Passat', 1267, 10],
+      [2007, 1, 'Toyota ', 'Toyota Rav4', 819, 6.5],
+      [2007, 1, 'Toyota ', 'Toyota Avensis', 787, 6.2],
+      [2007, 1, 'Volkswagen ', 'Volkswagen Golf', 720, 5.7],
+      [2007, 1, 'Toyota ', 'Toyota Corolla', 691, 5.4],
+      [2007, 1, 'Volkswagen ', 'Volkswagen Passat', 1267, 10],
+      [2007, 1, 'Toyota ', 'Toyota Rav4', 819, 6.5],
+      [2007, 1, 'Toyota ', 'Toyota Avensis', 787, 6.2],
+      [2007, 1, 'Volkswagen ', 'Volkswagen Golf', 720, 5.7],
+      [2007, 1, 'Toyota ', 'Toyota Corolla', 691, 5.4],
+      [2007, 1, 'Volkswagen ', 'Volkswagen Passat', 1267, 10],
+      [2007, 1, 'Toyota ', 'Toyota Rav4', 819, 6.5],
+      [2007, 1, 'Toyota ', 'Toyota Avensis', 787, 6.2],
+      [2007, 1, 'Volkswagen ', 'Volkswagen Golf', 720, 5.7],
+      [2007, 1, 'Toyota ', 'Toyota Corolla', 691, 5.4],
+      [2007, 1, 'Volkswagen ', 'Volkswagen Passat', 1267, 10],
+      [2007, 1, 'Toyota ', 'Toyota Rav4', 819, 6.5],
+      [2007, 1, 'Toyota ', 'Toyota Avensis', 787, 6.2],
+      [2007, 1, 'Volkswagen ', 'Volkswagen Golf', 720, 5.7],
+      [2007, 1, 'Toyota ', 'Toyota Corolla', 691, 5.4],
+      [2007, 1, 'Volkswagen ', 'Volkswagen Passat', 1267, 10],
+      [2007, 1, 'Toyota ', 'Toyota Rav4', 819, 6.5],
+      [2007, 1, 'Toyota ', 'Toyota Avensis', 787, 6.2],
+      [2007, 1, 'Volkswagen ', 'Volkswagen Golf', 720, 5.7],
+      [2007, 1, 'Toyota ', 'Toyota Corolla', 691, 5.4],
+      [2007, 1, 'Volkswagen ', 'Volkswagen Passat', 1267, 10],
+      [2007, 1, 'Toyota ', 'Toyota Rav4', 819, 6.5],
+      [2007, 1, 'Toyota ', 'Toyota Avensis', 787, 6.2],
+      [2007, 1, 'Volkswagen ', 'Volkswagen Golf', 720, 5.7],
+      [2007, 1, 'Toyota ', 'Toyota Corolla', 691, 5.4],
+      [2007, 1, 'Volkswagen ', 'Volkswagen Passat', 1267, 10],
+      [2007, 1, 'Toyota ', 'Toyota Rav4', 819, 6.5],
+      [2007, 1, 'Toyota ', 'Toyota Avensis', 787, 6.2],
+      [2007, 1, 'Volkswagen ', 'Volkswagen Golf', 720, 5.7],
+      [2007, 1, 'Toyota ', 'Toyota Corolla', 691, 5.4],
+      [2007, 1, 'Volkswagen ', 'Volkswagen Passat', 1267, 10],
+      [2007, 1, 'Toyota ', 'Toyota Rav4', 819, 6.5],
+      [2007, 1, 'Toyota ', 'Toyota Avensis', 787, 6.2],
+      [2007, 1, 'Volkswagen ', 'Volkswagen Golf', 720, 5.7],
+      [2007, 1, 'Toyota ', 'Toyota Corolla', 691, 5.4],
+      [2007, 1, 'Volkswagen ', 'Volkswagen Passat', 1267, 10],
+      [2007, 1, 'Toyota ', 'Toyota Rav4', 819, 6.5],
+      [2007, 1, 'Toyota ', 'Toyota Avensis', 787, 6.2],
+      [2007, 1, 'Volkswagen ', 'Volkswagen Golf', 720, 5.7],
+      [2007, 1, 'Toyota ', 'Toyota Corolla', 691, 5.4],
+      [2007, 1, 'Volkswagen ', 'Volkswagen Passat', 1267, 10],
+      [2007, 1, 'Toyota ', 'Toyota Rav4', 819, 6.5],
+      [2007, 1, 'Toyota ', 'Toyota Avensis', 787, 6.2],
+      [2007, 1, 'Volkswagen ', 'Volkswagen Golf', 720, 5.7],
+      [2007, 1, 'Toyota ', 'Toyota Corolla', 691, 5.4],
+    ];
+
+    // this.exportService.exportToExcel(data, title, header, header2, 'my-data');
+    this.exportService.exportToExcelFile(
+      data,
+      title,
+      header,
+      header2,
+      'my-data'
+    );
+  }
 
   getData(
     sl: number,
